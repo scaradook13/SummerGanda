@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Valentine's Day ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --rose: #ff6b9d;
+            --blush: #ffc1d6;
+            --cream: #fff5f7;
+            --wine: #c44569;
+            --deep: #8b3a62;
+            --gold: #ffd700;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #ffe8f0 50%, var(--blush) 100%);
+            color: var(--deep);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ===== Login Page ===== */
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(255,245,247,0.92) 0%, rgba(255,232,240,0.92) 50%, rgba(255,193,214,0.92) 100%);
+            backdrop-filter: blur(8px);
+        }
+
+        .login-card {
+            width: min(520px, 100%);
+            background: rgba(255,255,255,0.78);
+            border: 1px solid rgba(255, 193, 214, 0.45);
+            border-radius: 22px;
+            padding: 38px 30px;
+            box-shadow: 0 20px 70px rgba(255, 107, 157, 0.18);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInDown 0.8s ease forwards;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            left: -60%;
+            width: 220%;
+            height: 220%;
+            background: radial-gradient(circle, rgba(255, 193, 214, 0.16) 0%, transparent 70%);
+            animation: shimmer 8s infinite;
+        }
+
+        .login-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(2rem, 4vw, 2.6rem);
+            font-weight: 400;
+            color: var(--wine);
+            text-align: center;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            font-style: italic;
+            color: var(--rose);
+            font-size: 1.15rem;
+            margin-bottom: 26px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pin-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pin-input {
+            width: 100%;
+            max-width: 320px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(196, 69, 105, 0.25);
+            outline: none;
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 6px;
+            background: rgba(255,255,255,0.9);
+            color: var(--deep);
+            transition: 0.2s ease;
+        }
+
+        .pin-input:focus {
+            border-color: rgba(255, 107, 157, 0.6);
+            box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.12);
+        }
+
+        .login-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 14px;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, var(--rose), var(--wine));
+            color: white;
+            border: none;
+            padding: 14px 26px;
+            font-size: 1.1rem;
+            font-family: 'Crimson Pro', serif;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 10px 28px rgba(255, 107, 157, 0.28);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 14px 36px rgba(255, 107, 157, 0.45);
+        }
+
+        .login-hint {
+            text-align: center;
+            margin-top: 18px;
+            color: var(--wine);
+            opacity: 0.95;
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-error {
+            display: none;
+            margin-top: 12px;
+            text-align: center;
+            color: #a61b4d;
+            font-size: 1.05rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-error.show { display: block; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+        }
+
+        .shake { animation: shake 0.45s ease; }
+
+        /* ===== Floating hearts background ===== */
+        .heart-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            color: var(--rose);
+            opacity: 0.15;
+            animation: float-up 15s infinite ease-in;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* ===== Main container ===== */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 30px;
+        }
+
+        /* Header section */
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            opacity: 0;
+            animation: fadeInDown 1.2s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 300;
+            color: var(--wine);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-style: italic;
+            color: var(--rose);
+            font-weight: 300;
+        }
+
+        /* Love letter section */
+        .love-letter {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px 40px;
+            margin-bottom: 60px;
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.15);
+            border: 1px solid rgba(255, 193, 214, 0.3);
+            opacity: 0;
+            animation: fadeInUp 1.2s ease 0.3s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .love-letter::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 193, 214, 0.1) 0%, transparent 70%);
+            animation: shimmer 8s infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 30px); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .love-letter p {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            line-height: 2;
+            margin-bottom: 25px;
+            color: var(--deep);
+            position: relative;
+            z-index: 1;
+        }
+
+        .love-letter p:last-child { margin-bottom: 0; }
+
+        .signature {
+            text-align: right;
+            font-style: italic;
+            font-size: clamp(1.3rem, 3vw, 1.6rem);
+            margin-top: 40px;
+            color: var(--wine);
+        }
+
+        /* Reasons grid */
+        .reasons-section {
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease 0.6s forwards;
+        }
+
+        .reasons-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            text-align: center;
+            color: var(--wine);
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .reason-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 193, 214, 0.3));
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 1px solid rgba(255, 193, 214, 0.4);
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.1);
+        }
+
+        .reason-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.25);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(255, 193, 214, 0.5));
+        }
+
+        .reason-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .reason-text {
+            font-size: 1.2rem;
+            color: var(--deep);
+            line-height: 1.6;
+        }
+
+        /* Interactive heart button */
+        .heart-button-section {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease 0.9s forwards;
+        }
+
+        .heart-button {
+            background: linear-gradient(135deg, var(--rose), var(--wine));
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.3rem;
+            font-family: 'Crimson Pro', serif;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .heart-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .heart-button:hover::before { width: 300px; height: 300px; }
+
+        .heart-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.5);
+        }
+
+        .heart-button span { position: relative; z-index: 1; }
+
+        /* Message reveal */
+        .hidden-message {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+            display: none;
+            border: 2px solid var(--rose);
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.2);
+        }
+
+        .hidden-message.show { display: block; animation: scaleIn 0.5s ease; }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .hidden-message p {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: var(--deep);
+            text-align: center;
+            margin: 0;
+        }
+
+        /* Photo gallery */
+        .gallery-section {
+            margin-bottom: 60px;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease 1.2s forwards;
+        }
+
+        .gallery-title {
+            font-family: 'Crimson Pro', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            text-align: center;
+            color: var(--wine);
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .photo-placeholder {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, rgba(255, 193, 214, 0.4), rgba(255, 107, 157, 0.3));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            transition: transform 0.3s ease;
+            border: 2px dashed rgba(255, 107, 157, 0.4);
+            cursor: pointer;
+        }
+
+        .photo-placeholder:hover { transform: scale(1.05) rotate(2deg); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 1.1rem;
+            color: var(--wine);
+            opacity: 0;
+            animation: fadeIn 1.2s ease 1.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Heart explosion effect */
+        .heart-explosion {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 30px;
+            color: var(--rose);
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.5); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container { padding: 40px 20px; }
+            .love-letter { padding: 35px 25px; }
+            .reasons-grid { grid-template-columns: 1fr; }
+        }
+        /* ===== Flower Growing Overlay (5s) ===== */
+.flower-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 99998; /* below login (99999), above main */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, rgba(255,245,247,0.9) 0%, rgba(255,232,240,0.9) 45%, rgba(255,193,214,0.85) 100%);
+    backdrop-filter: blur(6px);
+    overflow: hidden;
+}
+
+.flower-overlay.show {
+    display: flex;
+}
+
+.flower-field {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.flower {
+    position: absolute;
+    bottom: -20px;
+    width: 10px;
+    height: 0px;
+    transform-origin: bottom center;
+    animation: stemGrow 10s ease-in-out forwards;
+}
+
+.stem {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 6px;
+    height: 100%;
+    transform: translateX(-50%);
+    border-radius: 10px;
+    background: linear-gradient(180deg, #4caf50, #2e7d32);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+.leaf {
+    position: absolute;
+    width: 18px;
+    height: 10px;
+    background: linear-gradient(135deg, #66bb6a, #2e7d32);
+    border-radius: 18px 18px 18px 2px;
+    opacity: 0;
+    transform-origin: left center;
+    animation: leafPop 10s ease-in-out forwards;
+}
+
+.leaf.left {
+    left: -14px;
+    transform: rotate(-25deg);
+}
+
+.leaf.right {
+    right: -14px;
+    transform: scaleX(-1) rotate(-25deg);
+}
+
+.bloom {
+    position: absolute;
+    left: 50%;
+    top: -18px;
+    transform: translateX(-50%) scale(0);
+    transform-origin: center;
+    font-size: 34px;
+    filter: drop-shadow(0 10px 18px rgba(196,69,105,0.25));
+    animation: bloomPop 10s ease-in-out forwards;
+}
+
+@keyframes stemGrow {
+    0% { height: 0px; opacity: 0; }
+    10% { opacity: 1; }
+    100% { height: var(--h); opacity: 1; }
+}
+
+@keyframes leafPop {
+    0%, 45% { opacity: 0; transform: translateY(0) rotate(-25deg) scale(0.4); }
+    70% { opacity: 0.9; transform: translateY(-8px) rotate(-25deg) scale(1); }
+    100% { opacity: 1; transform: translateY(-10px) rotate(-25deg) scale(1); }
+}
+
+@keyframes bloomPop {
+    0%, 65% { transform: translateX(-50%) scale(0); opacity: 0; }
+    80% { transform: translateX(-50%) scale(1.15); opacity: 1; }
+    100% { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+.flower-caption {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 18px 22px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,193,214,0.45);
+    box-shadow: 0 18px 60px rgba(255,107,157,0.18);
+    color: var(--wine);
+    font-family: 'Crimson Pro', serif;
+}
+
+.flower-caption h3 {
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin-bottom: 6px;
+}
+
+.flower-caption p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--deep);
+}
+/* Hearts inside the flower overlay */
+.overlay-heart-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;  /* behind flowers/caption, but still inside overlay */
+    overflow: hidden;
+}
+
+.overlay-floating-heart {
+    position: absolute;
+    font-size: 20px;
+    color: var(--rose);
+    opacity: 0.2;
+    animation: float-up 12s infinite ease-in;
+}
+
+/* make sure flowers and caption appear above overlay hearts */
+.flower-field { z-index: 1; }
+.flower-caption { z-index: 2; }
+/* Cute cat GIF on login */
+.login-cat {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+}
+
+.login-cat img {
+    width: 110px;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 12px 28px rgba(255, 107, 157, 0.25);
+    animation: catBounce 2.5s ease-in-out infinite;
+}
+
+/* Soft bounce animation */
+@keyframes catBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+/* Cat GIFs inside reason cards */
+.reason-cat {
+    width: 70px;
+    height: auto;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(255, 107, 157, 0.25);
+    animation: catFloat 3s ease-in-out infinite;
+}
+
+/* Gentle floating animation */
+@keyframes catFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+/* ===== Upgraded Gallery Design ===== */
+.nice-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 18px;
+}
+
+.photo-card {
+  position: relative;
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(255, 107, 157, 0.14);
+  transform: translateY(18px) scale(0.98);
+  opacity: 0;
+  animation: galleryIn 0.9s ease forwards;
+  animation-delay: calc(var(--d) * 70ms);
+}
+
+@keyframes galleryIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.photo-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.35), transparent 55%),
+              linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.18));
+  opacity: 0.75;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.photo-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.95rem;
+  color: white;
+  background: rgba(196, 69, 105, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+  z-index: 2;
+}
+
+.photo-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 18px 45px rgba(255, 107, 157, 0.25);
+}
+
+.photo-card:hover img {
+  transform: scale(1.08);
+}
+
+.photo-card:hover::after {
+  opacity: 0.9;
+}
+
+/* ===== Lightbox ===== */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 10, 18, 0.72);
+  backdrop-filter: blur(8px);
+  z-index: 999999;
+  padding: 22px;
+}
+
+.lightbox.show { display: flex; animation: lbFade 0.2s ease; }
+
+@keyframes lbFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.lightbox-img {
+  max-width: min(980px, 96vw);
+  max-height: 86vh;
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.45);
+  border: 1px solid rgba(255,255,255,0.18);
+  animation: lbPop 0.25s ease;
+}
+
+@keyframes lbPop {
+  from { transform: scale(0.96); opacity: 0.7; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.12);
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.lightbox-close:hover {
+  transform: scale(1.08);
+  background: rgba(255,255,255,0.2);
+}
+
+    </style>
+</head>
+<body>
+    <!-- Login PIN Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card" id="loginCard">
+            <div class="login-cat">
+    <img 
+        src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExejdmdnN2NWc0MGF4dHlqeTh5NWZpeGxyMjA2MDRydndjODVsYzR3MSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wvYNSqBAMDVx8CEYkt/giphy.gif" 
+        alt="Cute cat"
+    />
+</div>
+
+            <h2 class="login-title">Enter PIN 💗</h2>
+            <p class="login-subtitle">Unlock the surprise <br> For your eyes only</p>
+
+            <div class="pin-row">
+                <input
+                    class="pin-input"
+                    id="pinInput"
+                    type="password"
+                    inputmode="numeric"
+                    maxlength="4"
+                    placeholder="••••"
+                    aria-label="PIN"
+                />
+            </div>
+
+            <div class="login-actions">
+                <button class="login-btn" id="unlockBtn">Unlock</button>
+            </div>
+
+            <div class="login-error" id="loginError">Wrong PIN. Try again.</div>
+        </div>
+    </div>
+
+    <div class="flower-overlay" id="flowerOverlay" aria-hidden="true">
+    <div class="overlay-heart-bg" id="overlayHeartBg"></div>
+    <div class="flower-field" id="flowerField"></div>
+    <div class="flower-caption">
+        <h3>Just a moment… 🌷</h3>
+        <p>Something beautiful is blooming for you.</p>
+    </div>
+</div>
+
+    <!-- Floating hearts -->
+    <div class="heart-bg" id="heartBg"></div>
+
+    <!-- Main Page -->
+    <div class="container" id="mainContent" style="display:none;">
+        <header>
+            <h1>Happy Valentine's Day</h1>
+            <p class="subtitle">To the Future Doctor</p>
+        </header>
+
+        <section class="love-letter">
+            <p>Dear Summer ganda,</p>
+            <p>Happy 4th month of friendship! and happy valentine's day! I can't believe it's already been four months since we started talking. Time really flies when you're spending it with someone special, even if it's just through a screen.</p>
+            <p>Looking back at these past four months, I'm amazed at how much you've come to mean to me. Even though we've never met in person, you've somehow become one of the most important people in my life. It's incredible how someone from miles away can make such a huge impact just through voice calls, messages, and the time we spend together online.</p>
+            <p>All those hours we spend playing MLBB together have become the highlight of my days. Whether we're grinding ranked games, trying out new heroes, strategizing our next move, or just messing around in classic matches—every game is better because you're there with me. You're not just a teammate, you're the reason I look forward to logging in every day.</p>
+            <p>But what I treasure even more than the games are our conversations. The late-night talks that stretch into early morning, the random topics we explore, the dreams we share, the problems we discuss, the jokes that make us laugh until our stomachs hurt—you actually listen. You care. You remember the little things I mention, and that means everything to me. Despite the distance between us, you've made me feel heard, understood, and genuinely valued.</p>
+            <p>These four months have taught me that distance doesn't determine the depth of a friendship. I know maintaining an LDR friendship isn't easy. There are time zones to work around, schedules to coordinate, days when connection is bad, and the reality that we can't just hang out whenever we want. But you still make the effort. You still show up. You still make time for me even when you're tired or busy, and I want you to know how much I appreciate that dedication.</p>
+            <p>Every laugh we've shared, every victory we've celebrated, every defeat we've faced together, every random 3 AM conversation—all of it has created memories I genuinely cherish. You've proven that friendship doesn't require physical presence to be real, meaningful, and deep. The bond we've built over these four months feels stronger than some friendships I've had for years.</p>
+            <p>Thank you for being consistent, for being there through good days and bad days, for choosing to spend your precious time with me. Thank you for the energy you pour into our friendship, for the care you show in the little things, and for making me feel like I matter. In a world where it's easy to feel alone, especially with the distance between us, you've made me feel connected, appreciated, and truly understood.</p>
+            <p>I hope one day we'll finally meet in person and all those virtual high-fives and celebrations will turn into real ones. I hope we can play MLBB side by side instead of miles apart, and I hope I can thank you face to face for everything you've done for me. But until that day comes, I'm grateful for every chat, every call, every game, and every moment we share, no matter how virtual it may be.</p>
+            <p>Here's to four amazing months, Summer, and to many more to come. Here's to more games, more conversations, more laughter, and more memories together. You're special, you're appreciated, and you've made these past four months truly unforgettable.</p>
+            <p>Thank you for everything you do, for being exactly who you are, and for making my life so much better just by being part of it. Happy 4 months, Summer ganda!</p>
+            <p class="signature">With deep appreciation and warmth 😘</p>
+        </section>
+
+<section class="reasons-section">
+    <h2 class="reasons-title">Reasons Why I Like You</h2>
+    <div class="reasons-grid">
+
+        <div class="reason-card">
+            <img class="reason-cat" src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="Happy cat">
+            <p class="reason-text">Your laugh and smile lights up my day🤗</p>
+        </div>
+
+        <div class="reason-card">
+            <img class="reason-cat" src="https://media.giphy.com/media/mlvseq9yvZhba/giphy.gif" alt="Sparkle cat">
+            <p class="reason-text">You make ordinary moments extraordinary😎</p>
+        </div>
+
+        <div class="reason-card">
+            <img class="reason-cat" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="Kind cat">
+            <p class="reason-text">Your cuteness inspires me every day😆</p>
+        </div>
+
+        <div class="reason-card">
+            <img class="reason-cat" src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif" alt="Heart cat">
+            <p class="reason-text">You understand me like no one else 😚</p>
+        </div>
+
+        <div class="reason-card">
+            <img class="reason-cat" src="https://media.giphy.com/media/6uMqzcbWRhoT6/giphy.gif" alt="Rose cat">
+            <p class="reason-text">Your presence makes everything better😊</p>
+        </div>
+
+        <div class="reason-card">
+            <img class="reason-cat" src="https://media.giphy.com/media/l4KibK3JwaVo0CjDO/giphy.gif" alt="Soulmate cat">
+            <p class="reason-text">You're my best online friend and team mate🤩</p>
+        </div>
+
+    </div>
+</section>
+
+
+        <section class="heart-button-section">
+            <button class="heart-button" id="loveButton">
+                <span>Click to reveal a special message 💕</span>
+            </button>
+            <div class="hidden-message" id="hiddenMessage">
+                <p>I'm so proud of your dream to become a doctor, Summer. I know the journey is tough, but I believe in you completely. I wish you all the best in everything you do—may you ace every exam, overcome every challenge, and get closer to your dreams each day. Please take care of yourself always, don't forget to rest when you need to, and remember that I'm here cheering you on every step of the way. Good luck today and every day, Summer ganda. You've got this! 💖</p>
+            </div>
+        </section>
+
+        <section class="gallery-section" id="gallery">
+  <h2 class="gallery-title">14 Pictures becuz it's feb 14 and also are friendship day haha</h2>
+
+  <div class="photo-grid nice-grid">
+    <!-- 1 to 14 images -->
+    <button class="photo-card" style="--d:0" data-src="1.jpg" aria-label="Open photo 1">
+      <img src="1.jpg" alt="Memory 1" loading="lazy" />
+      <span class="photo-badge">#1</span>
+    </button>
+
+    <button class="photo-card" style="--d:1" data-src="2.jpg" aria-label="Open photo 2">
+      <img src="2.jpg" alt="Memory 2" loading="lazy" />
+      <span class="photo-badge">#2</span>
+    </button>
+
+    <button class="photo-card" style="--d:2" data-src="3.jpg" aria-label="Open photo 3">
+      <img src="3.jpg" alt="Memory 3" loading="lazy" />
+      <span class="photo-badge">#3</span>
+    </button>
+
+    <button class="photo-card" style="--d:3" data-src="4.jpg" aria-label="Open photo 4">
+      <img src="4.jpg" alt="Memory 4" loading="lazy" />
+      <span class="photo-badge">#4</span>
+    </button>
+
+    <button class="photo-card" style="--d:4" data-src="5.jpg" aria-label="Open photo 5">
+      <img src="5.jpg" alt="Memory 5" loading="lazy" />
+      <span class="photo-badge">#5</span>
+    </button>
+
+    <button class="photo-card" style="--d:5" data-src="6.jpg" aria-label="Open photo 6">
+      <img src="6.jpg" alt="Memory 6" loading="lazy" />
+      <span class="photo-badge">#6</span>
+    </button>
+
+    <button class="photo-card" style="--d:6" data-src="7.jpg" aria-label="Open photo 7">
+      <img src="7.jpg" alt="Memory 7" loading="lazy" />
+      <span class="photo-badge">#7</span>
+    </button>
+
+    <button class="photo-card" style="--d:7" data-src="8.jpg" aria-label="Open photo 8">
+      <img src="8.jpg" alt="Memory 8" loading="lazy" />
+      <span class="photo-badge">#8</span>
+    </button>
+
+    <button class="photo-card" style="--d:8" data-src="9.jpg" aria-label="Open photo 9">
+      <img src="9.jpg" alt="Memory 9" loading="lazy" />
+      <span class="photo-badge">#9</span>
+    </button>
+
+    <button class="photo-card" style="--d:9" data-src="10.jpg" aria-label="Open photo 10">
+      <img src="10.jpg" alt="Memory 10" loading="lazy" />
+      <span class="photo-badge">#10</span>
+    </button>
+
+    <button class="photo-card" style="--d:10" data-src="11.jpg" aria-label="Open photo 11">
+      <img src="11.jpg" alt="Memory 11" loading="lazy" />
+      <span class="photo-badge">#11</span>
+    </button>
+
+    <button class="photo-card" style="--d:11" data-src="12.jpg" aria-label="Open photo 12">
+      <img src="12.jpg" alt="Memory 12" loading="lazy" />
+      <span class="photo-badge">#12</span>
+    </button>
+
+    <button class="photo-card" style="--d:12" data-src="13.jpg" aria-label="Open photo 13">
+      <img src="13.jpg" alt="Memory 13" loading="lazy" />
+      <span class="photo-badge">#13</span>
+    </button>
+
+    <button class="photo-card" style="--d:13" data-src="14.jpg" aria-label="Open photo 14">
+      <img src="14.jpg" alt="Memory 14" loading="lazy" />
+      <span class="photo-badge">#14</span>
+    </button>
+  </div>
+
+  <p style="text-align: center; margin-top: 20px; font-style: italic; color: var(--wine);">
+    (super ganda talaga ni baby summer!)
+  </p>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+  <img class="lightbox-img" id="lightboxImg" alt="Full view" />
+</div>
+
+
+        <footer>
+            <p>Made with mah pure feelings haha, just for you 💗</p>
+            <p>Valentine's Day 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        // ===== PIN LOGIN =====
+        const DEFAULT_PIN = "1114";
+
+        const loginScreen = document.getElementById("loginScreen");
+        const loginCard = document.getElementById("loginCard");
+        const pinInput = document.getElementById("pinInput");
+        const unlockBtn = document.getElementById("unlockBtn");
+        const loginError = document.getElementById("loginError");
+        const mainContent = document.getElementById("mainContent");
+
+        function unlockIfCorrect() {
+    const pin = (pinInput.value || "").trim();
+
+    if (pin === DEFAULT_PIN) {
+        loginError.classList.remove("show");
+
+        // Hide login
+        loginScreen.style.display = "none";
+
+        // Show flower overlay for 5 seconds
+        showFlowerGrowing(10000);
+
+        // After 5s, show main + hearts
+        setTimeout(() => {
+            document.getElementById("flowerOverlay").classList.remove("show");
+            mainContent.style.display = "block";
+            createFloatingHearts();
+        }, 10000);
+
+    } else {
+        loginError.classList.add("show");
+        pinInput.value = "";
+        pinInput.focus();
+
+        loginCard.classList.remove("shake");
+        void loginCard.offsetWidth;
+        loginCard.classList.add("shake");
+    }
+}
+function showFlowerGrowing(durationMs = 10000) {
+    const overlay = document.getElementById("flowerOverlay");
+    const field = document.getElementById("flowerField");
+
+    // Reset previous flowers
+    field.innerHTML = "";
+
+    // Show overlay
+    overlay.classList.add("show");
+    const overlayHeartBg = document.getElementById("overlayHeartBg");
+createFloatingHeartsIn(overlayHeartBg, 22);
+
+
+    // Create a small garden
+    const emojis = ["🌷", "🌸", "🌹", "🌺", "💐"];
+    const count = 14;
+
+    for (let i = 0; i < count; i++) {
+        const f = document.createElement("div");
+        f.className = "flower";
+
+        // Random position + height
+        const left = Math.random() * 100;
+        const h = 140 + Math.random() * 170; // 140-310px
+        const delay = Math.random() * 0.35;  // small stagger
+        const bloom = emojis[Math.floor(Math.random() * emojis.length)];
+
+        f.style.left = left + "%";
+        f.style.setProperty("--h", h + "px");
+        f.style.animationDelay = delay + "s";
+
+        const stem = document.createElement("div");
+        stem.className = "stem";
+
+        const leafL = document.createElement("div");
+        leafL.className = "leaf left";
+        leafL.style.bottom = (40 + Math.random() * 70) + "px";
+        leafL.style.animationDelay = delay + "s";
+
+        const leafR = document.createElement("div");
+        leafR.className = "leaf right";
+        leafR.style.bottom = (55 + Math.random() * 70) + "px";
+        leafR.style.animationDelay = (delay + 0.05) + "s";
+
+        const top = document.createElement("div");
+        top.className = "bloom";
+        top.textContent = bloom;
+        top.style.animationDelay = delay + "s";
+
+        f.appendChild(stem);
+        f.appendChild(leafL);
+        f.appendChild(leafR);
+        f.appendChild(top);
+
+        field.appendChild(f);
+    }
+
+    // Auto hide overlay after duration (safety)
+    setTimeout(() => {
+    overlay.classList.remove("show");
+    clearFloatingHeartsIn(overlayHeartBg);
+}, durationMs);
+
+}
+
+
+        unlockBtn.addEventListener("click", unlockIfCorrect);
+        pinInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") unlockIfCorrect();
+        });
+
+        // Autofocus PIN
+        setTimeout(() => pinInput.focus(), 150);
+
+        // ===== ORIGINAL EFFECTS =====
+
+        // Create floating hearts background
+        function createFloatingHearts() {
+            const heartBg = document.getElementById('heartBg');
+            const heartSymbols = ['❤️', '💕', '💖', '💗', '💝', '💞'];
+
+            // Avoid duplicating hearts if user reloads/unlocks again
+            if (heartBg.dataset.started === "1") return;
+            heartBg.dataset.started = "1";
+
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heartBg.appendChild(heart);
+            }
+        }
+
+        // Heart explosion effect
+        function createHeartExplosion(x, y) {
+            const hearts = ['❤️', '💕', '💖', '💗', '💝'];
+            const numHearts = 12;
+
+            for (let i = 0; i < numHearts; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-explosion';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = x + 'px';
+                heart.style.top = y + 'px';
+
+                const angle = (Math.PI * 2 * i) / numHearts;
+                const distance = 100 + Math.random() * 50;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+
+                heart.style.setProperty('--tx', tx + 'px');
+                heart.style.setProperty('--ty', ty + 'px');
+
+                document.body.appendChild(heart);
+
+                setTimeout(() => { heart.remove(); }, 1000);
+            }
+        }
+
+        // Love button interaction
+        const loveButton = document.getElementById('loveButton');
+        const hiddenMessage = document.getElementById('hiddenMessage');
+
+        loveButton.addEventListener('click', function(e) {
+            hiddenMessage.classList.add('show');
+            createHeartExplosion(e.clientX, e.clientY);
+
+            // Change button text
+            this.innerHTML = '<span>I love you!😘🥰</span>';
+            this.style.background = 'linear-gradient(135deg, var(--gold), var(--wine))';
+        });
+
+        // Add click effect to reason cards
+        const reasonCards = document.querySelectorAll('.reason-card');
+        reasonCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const rect = this.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+                createHeartExplosion(x, y);
+            });
+        });
+
+        // Add click effect to photo placeholders
+        const photoPlaceholders = document.querySelectorAll('.photo-placeholder');
+        photoPlaceholders.forEach(photo => {
+            photo.addEventListener('click', function() {
+                const rect = this.getBoundingClientRect();
+                const x = rect.left + rect.width / 2;
+                const y = rect.top + rect.height / 2;
+                createHeartExplosion(x, y);
+            });
+        });
+
+        // NOTE: We no longer call createFloatingHearts() here.
+        // It will start ONLY after correct PIN.
+        function createFloatingHeartsIn(containerEl, count = 18) {
+    if (!containerEl) return;
+
+    // Avoid duplicating hearts if called again
+    containerEl.innerHTML = "";
+
+    const heartSymbols = ["❤️", "💕", "💖", "💗", "💝", "💞"];
+
+    for (let i = 0; i < count; i++) {
+        const heart = document.createElement("div");
+        heart.className = "overlay-floating-heart";
+        heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+        heart.style.left = Math.random() * 100 + "%";
+        heart.style.animationDelay = Math.random() * 12 + "s";
+        heart.style.fontSize = (Math.random() * 18 + 14) + "px";
+        containerEl.appendChild(heart);
+    }
+}
+
+function clearFloatingHeartsIn(containerEl) {
+    if (!containerEl) return;
+    containerEl.innerHTML = "";
+}
+// ===== Gallery Lightbox =====
+const lightbox = document.getElementById("lightbox");
+const lightboxImg = document.getElementById("lightboxImg");
+const lightboxClose = document.getElementById("lightboxClose");
+
+document.querySelectorAll(".photo-card").forEach((card) => {
+  card.addEventListener("click", () => {
+    const src = card.getAttribute("data-src");
+    lightboxImg.src = src;
+    lightbox.classList.add("show");
+    lightbox.setAttribute("aria-hidden", "false");
+  });
+});
+
+function closeLightbox() {
+  lightbox.classList.remove("show");
+  lightbox.setAttribute("aria-hidden", "true");
+  lightboxImg.src = "";
+}
+
+lightboxClose.addEventListener("click", closeLightbox);
+
+// Close when clicking outside image
+lightbox.addEventListener("click", (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+
+// Close on ESC key
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && lightbox.classList.contains("show")) closeLightbox();
+});
+
+    </script>
+</body>
+</html>
