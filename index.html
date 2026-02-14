@@ -791,6 +791,56 @@
   transform: scale(1.08);
   background: rgba(255,255,255,0.2);
 }
+/* ===== Mini Music Player ===== */
+.music-control{
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 999997;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.72);
+  border: 1px solid rgba(255, 193, 214, 0.55);
+  box-shadow: 0 18px 55px rgba(255, 107, 157, 0.22);
+  backdrop-filter: blur(10px);
+}
+
+.music-btn{
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: white;
+  background: linear-gradient(135deg, var(--rose), var(--wine));
+  box-shadow: 0 12px 28px rgba(255, 107, 157, 0.25);
+  transition: transform 0.2s ease;
+}
+.music-btn:hover{ transform: scale(1.06); }
+
+.music-info{
+  line-height: 1.1;
+}
+.music-title{
+  font-family: 'Crimson Pro', serif;
+  color: var(--wine);
+  font-size: 1.05rem;
+}
+.music-sub{
+  font-size: 0.95rem;
+  color: var(--deep);
+  opacity: 0.85;
+  font-style: italic;
+}
+
+.music-vol{
+  width: 110px;
+  accent-color: var(--wine);
+}
 
     </style>
 </head>
@@ -839,6 +889,21 @@
 
     <!-- Floating hearts -->
     <div class="heart-bg" id="heartBg"></div>
+
+    <!-- Background Music -->
+<audio id="bgMusic" src="bgMusic.mp3" preload="auto" loop></audio>
+
+<!-- Mini Music Control -->
+<div class="music-control" id="musicControl" style="display:none;">
+  <button class="music-btn" id="musicToggle" aria-label="Toggle music">⏸</button>
+  <div class="music-info">
+    <div class="music-title">Background music</div>
+    <div class="music-sub">Tap to pause or play</div>
+  </div>
+
+  <input id="musicVol" class="music-vol" type="range" min="0" max="1" step="0.01" value="0.35" />
+</div>
+
 
     <!-- Main Page -->
     <div class="container" id="mainContent" style="display:none;">
@@ -1013,35 +1078,78 @@
         const unlockBtn = document.getElementById("unlockBtn");
         const loginError = document.getElementById("loginError");
         const mainContent = document.getElementById("mainContent");
+        // ===== BACKGROUND MUSIC =====
+const bgMusic = document.getElementById("bgMusic");
+const musicControl = document.getElementById("musicControl");
+const musicToggle = document.getElementById("musicToggle");
+const musicVol = document.getElementById("musicVol");
+
+// default volume
+bgMusic.volume = parseFloat(musicVol.value || "0.35");
+
+// volume slider
+musicVol.addEventListener("input", () => {
+  bgMusic.volume = parseFloat(musicVol.value);
+});
+
+// toggle play/pause
+function updateMusicBtn() {
+  musicToggle.textContent = bgMusic.paused ? "▶" : "⏸";
+}
+function toggleMusic() {
+  if (bgMusic.paused) {
+    bgMusic.play().then(updateMusicBtn).catch(() => {});
+  } else {
+    bgMusic.pause();
+    updateMusicBtn();
+  }
+}
+musicToggle.addEventListener("click", toggleMusic);
+
+// repeat when it ends (loop already does this, this is extra safety)
+bgMusic.addEventListener("ended", () => {
+  bgMusic.currentTime = 0;
+  bgMusic.play().catch(() => {});
+});
+
 
         function unlockIfCorrect() {
     const pin = (pinInput.value || "").trim();
 
     if (pin === DEFAULT_PIN) {
-        loginError.classList.remove("show");
+  loginError.classList.remove("show");
 
-        // Hide login
-        loginScreen.style.display = "none";
+  // Hide login
+  loginScreen.style.display = "none";
 
-        // Show flower overlay for 5 seconds
-        showFlowerGrowing(10000);
+  // Show music control + play music
+  musicControl.style.display = "flex";
+  bgMusic.currentTime = 0;
+  bgMusic.play().then(updateMusicBtn).catch(() => {
+    // If browser blocks autoplay, user can press the button
+    updateMusicBtn();
+  });
 
-        // After 5s, show main + hearts
-        setTimeout(() => {
-            document.getElementById("flowerOverlay").classList.remove("show");
-            mainContent.style.display = "block";
-            createFloatingHearts();
-        }, 10000);
+  // Show flower overlay
+  showFlowerGrowing(10000);
 
-    } else {
-        loginError.classList.add("show");
-        pinInput.value = "";
-        pinInput.focus();
+  // After 10s, show main + hearts
+  setTimeout(() => {
+    document.getElementById("flowerOverlay").classList.remove("show");
+    mainContent.style.display = "block";
+    createFloatingHearts();
+  }, 10000);
 
-        loginCard.classList.remove("shake");
-        void loginCard.offsetWidth;
-        loginCard.classList.add("shake");
-    }
+} else {
+  loginError.classList.add("show");
+  pinInput.value = "";
+  pinInput.focus();
+
+  loginCard.classList.remove("shake");
+  void loginCard.offsetWidth;
+  loginCard.classList.add("shake");
+}
+
 }
 function showFlowerGrowing(durationMs = 10000) {
     const overlay = document.getElementById("flowerOverlay");
